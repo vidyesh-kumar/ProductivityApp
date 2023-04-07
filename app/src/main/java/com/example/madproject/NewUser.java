@@ -8,16 +8,25 @@ import android.os.Bundle;
 import android.view.View;
 
 public class NewUser extends AppCompatActivity {
+    PreferenceManager preferenceManager;
     AppCompatButton signIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        signIn = (AppCompatButton) findViewById(R.id.signIn);
-        signIn.setOnClickListener(view -> setActivity());
+        preferenceManager = PreferenceManager.getInstance(this);
+        if(!preferenceManager.getString("Username").isEmpty()) {
+            setActivity(Home.class);
+            finish();
+        }
+        else
+        {   signIn = findViewById(R.id.signIn);
+            signIn.setOnClickListener(view -> setActivity(CreateUser.class));
+        }
+
     }
-    private void setActivity()
-    {   Intent i = new Intent(getApplicationContext(), CreateUser.class);
+    private void setActivity(Class ctx)
+    {   Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
     }
 }

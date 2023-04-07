@@ -64,7 +64,7 @@ public class CreateUser extends AppCompatActivity {
                     preferenceManager.setString("UserEmail", useremail);
                     preferenceManager.setString("Age", "" + age);
                     Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_LONG).show();
-                    setActivity(Profile.class);
+                    setActivity(Home.class);
                 }
             }
         });
