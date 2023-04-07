@@ -16,14 +16,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="75dp"
         android:elevation="0dp"
+        android:padding="5dp"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/user_display_pic"
@@ -41,14 +43,14 @@
         android:text="@string/notifications"
         android:textColor="@color/heading_gray"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/switch1"
+        app:layout_constraintBottom_toTopOf="@+id/notify"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/edit" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/useremail"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter"
@@ -56,14 +58,14 @@
         android:text="@string/user_email"
         android:textColor="@color/text_gray"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/username"
         android:layout_width="331dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_bold"
@@ -71,19 +73,19 @@
         android:text="@string/username"
         android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/useremail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roundCardView" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch1"
+    <Switch
+        android:id="@+id/notify"
         android:layout_width="331dp"
         android:layout_height="70dp"
         android:layout_marginBottom="150dp"
         android:background="@drawable/profile_page_card"
-        android:fontFamily="@font/inter_semibold"
+        android:fontFamily="@font/inter_semi"
         android:paddingStart="20dp"
         android:paddingEnd="10dp"
         android:text="@string/Switch_text"
@@ -96,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/edit"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
@@ -110,6 +112,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/useremail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

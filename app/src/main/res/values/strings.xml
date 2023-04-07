@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MADProject</string>
     <string name="Img_Desc">Clip Art</string>
-    <string name="Button_Text">Sign In With Email</string>
+    <string name="Button_Text">Get Started</string>
     <string name="formatted_header">The only Productivity App you\'ll ever need !!!</string>
     <string name="notifications">Notifications</string>
     <string name="user_email">User@gmail.com</string>
@@ -9,4 +9,9 @@
     <string name="Switch_text">Turn on Notifications</string>
     <string name="profile_button_text">Edit Profile</string>
     <string name="user_display_pic">User Display Pic</string>
+    <string name="form_header">Create Profile</string>
+    <string name="name_hint">Name</string>
+    <string name="email_hint">Email</string>
+    <string name="dob_hint">Date of Birth</string>
+    <string name="form_button">Submit Details</string>
 </resources>

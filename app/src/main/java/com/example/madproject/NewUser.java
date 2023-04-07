@@ -14,16 +14,10 @@ public class NewUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         signIn = (AppCompatButton) findViewById(R.id.signIn);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setActivity(Profile.class);
-            }
-        });
+        signIn.setOnClickListener(view -> setActivity());
     }
-    private void setActivity(Class ctx)
-    {   Intent i = new Intent(getApplicationContext(),ctx);
+    private void setActivity()
+    {   Intent i = new Intent(getApplicationContext(), CreateUser.class);
         startActivity(i);
-
     }
 }
