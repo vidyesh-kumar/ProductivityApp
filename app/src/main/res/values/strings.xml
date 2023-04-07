@@ -14,4 +14,6 @@
     <string name="email_hint">Email</string>
     <string name="dob_hint">Date of Birth</string>
     <string name="form_button">Submit Details</string>
+    <string name="edit_profile_header">Edit Profile</string>
+    <string name="age_hint">Age</string>
 </resources>

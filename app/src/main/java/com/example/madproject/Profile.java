@@ -3,10 +3,12 @@ package com.example.madproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,6 +25,12 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getUI();
+        edit.setOnClickListener(view -> setActivity(EditUser.class));
+    }
+
+    private void setActivity(Class ctx) {
+        Intent i = new Intent(getApplicationContext(),ctx);
+        startActivity(i);
     }
 
     private void getUI() {
