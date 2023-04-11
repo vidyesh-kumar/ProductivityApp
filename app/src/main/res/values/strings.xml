@@ -16,4 +16,14 @@
     <string name="form_button">Submit Details</string>
     <string name="edit_profile_header">Edit Profile</string>
     <string name="age_hint">Age</string>
+    <string name="category_header">Choose Categories</string>
+    <string name="occupation_header">Occupation</string>
+    <string name="other_categories">Other Categories</string>
+    <string name="work_category">Work</string>
+    <string name="study_category">Study</string>
+    <string name="fitness_category">Fitness</string>
+    <string name="hobbies_category">Hobbies</string>
+    <string name="projects_category">Projects</string>
+    <string name="entertaiment_category">Entertaiment</string>
+    <string name="go_to_dashboard">Go To Dashboard</string>
 </resources>

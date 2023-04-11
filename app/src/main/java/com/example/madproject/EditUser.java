@@ -26,7 +26,7 @@ public class EditUser extends AppCompatActivity {
 
     public static final int GET_FROM_GALLERY = 3;
     ImageView editdp;
-    TextView email,dob;
+    TextView email,dob,occupation;
     EditText editname;
     AppCompatButton editsubmit;
     @Override
@@ -52,6 +52,7 @@ public class EditUser extends AppCompatActivity {
     private void setActivity(Class ctx) {
         Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
+        finish();
     }
 
     private void getUI() {
@@ -60,9 +61,11 @@ public class EditUser extends AppCompatActivity {
         dob = findViewById(R.id.dobtext);
         editname = findViewById(R.id.changename);
         editsubmit = findViewById(R.id.editprofile);
+        occupation = findViewById(R.id.occupationtext);
         preferenceManager = PreferenceManager.getInstance(this);
         email.setText(preferenceManager.getString("UserEmail"));
         dob.setText(preferenceManager.getString("Age"));
+        occupation.setText(preferenceManager.getString("Occupation"));
         editname.setText(preferenceManager.getString("Username"));
         byte[] b = Base64.decode(preferenceManager.getString("image_data"), Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);

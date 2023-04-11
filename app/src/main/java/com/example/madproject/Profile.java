@@ -31,6 +31,7 @@ public class Profile extends AppCompatActivity {
     private void setActivity(Class ctx) {
         Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
+        finish();
     }
 
     private void getUI() {

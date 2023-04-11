@@ -8,4 +8,5 @@
     <color name="text_gray">#C1C1C1</color>
     <color name="heading_gray">#4F4F4F</color>
     <color name="card_fill">#333333</color>
+    <color name="category_fill">#A57110</color>
 </resources>

@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -38,34 +37,30 @@ public class CreateUser extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         getUI();
         dp.setOnClickListener(view -> startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY));
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username = name.getText().toString();
-                String useremail = email.getText().toString();
-                int year = dob.getYear();
-                Date d = new Date();
-                int curr_year = d.getYear() + 1900;
-                int age = curr_year - year;
-                Bitmap dpBitmap = ((BitmapDrawable) dp.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                dpBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] b = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                preferenceManager.setString("image_data", encodedImage);
-                if (username.isEmpty())
-                    Toast.makeText(getApplicationContext(), "Enter Username", Toast.LENGTH_LONG).show();
-                else if (useremail.isEmpty())
-                    Toast.makeText(getApplicationContext(), "Enter Email", Toast.LENGTH_LONG).show();
-                else if (age <= 0)
-                    Toast.makeText(getApplicationContext(), "Enter Date of Birth", Toast.LENGTH_LONG).show();
-                else
-                {   preferenceManager.setString("Username", username);
-                    preferenceManager.setString("UserEmail", useremail);
-                    preferenceManager.setString("Age", "" + age);
-                    Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_LONG).show();
-                    setActivity(Home.class);
-                }
+        submit.setOnClickListener(view -> {
+            String username = name.getText().toString();
+            String useremail = email.getText().toString();
+            int year = dob.getYear();
+            Date d = new Date();
+            int curr_year = d.getYear() + 1900;
+            int age = curr_year - year;
+            Bitmap dpBitmap = ((BitmapDrawable) dp.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            dpBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+            preferenceManager.setString("image_data", encodedImage);
+            if (username.isEmpty())
+                Toast.makeText(getApplicationContext(), "Enter Username", Toast.LENGTH_LONG).show();
+            else if (useremail.isEmpty())
+                Toast.makeText(getApplicationContext(), "Enter Email", Toast.LENGTH_LONG).show();
+            else if (age <= 0)
+                Toast.makeText(getApplicationContext(), "Enter Date of Birth", Toast.LENGTH_LONG).show();
+            else
+            {   preferenceManager.setString("Username", username);
+                preferenceManager.setString("UserEmail", useremail);
+                preferenceManager.setString("Age", "" + age);
+                setActivity(ChooseCategory.class);
             }
         });
 
@@ -99,5 +94,6 @@ public class CreateUser extends AppCompatActivity {
     private void setActivity(Class ctx)
     {   Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
+        finish();
     }
 }

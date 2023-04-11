@@ -12,20 +12,33 @@
         android:theme="@style/Theme.MADProject"
         tools:targetApi="31">
         <activity
+            android:name=".Pomodoro"
+            android:exported="false"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ChooseCategory"
+            android:exported="false"
+            />
+        <activity
             android:name=".Home"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".EditUser"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".CreateUser"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".Profile"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".NewUser"
-            android:exported="true">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

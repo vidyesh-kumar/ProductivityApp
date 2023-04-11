@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back"
+    tools:context=".Pomodoro">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_page_header"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/pomo_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="100dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Timers"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/roundCardView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/roundCardView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="100dp"
+            android:elevation="0dp"
+            android:padding="5dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pomo_title"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/profile_link"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/user_display_pic"
+                android:src="@drawable/default_avatar" />
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_page_nav"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:padding="10dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+
+        <ImageView
+            android:id="@+id/tas_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/hom_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/checklist_white" />
+
+        <ImageView
+            android:id="@+id/pomo_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/email_button"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/hom_button"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/timer_white" />
+
+        <ImageView
+            android:id="@+id/hom_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tas_button"
+            app:layout_constraintStart_toEndOf="@+id/pomo_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/home_white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/home_page_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_page_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="30dp">
+
+            <TextView
+                android:id="@+id/timer_text"
+                android:layout_width="351dp"
+                android:layout_height="100dp"
+                android:fontFamily="@font/inter_bold"
+                android:gravity="center"
+                android:text="No Active Timers"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="34sp"
+                app:layout_constraintBottom_toTopOf="@+id/hint_timer_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/m30"
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:background="@drawable/profile_page_card"
+                android:drawableStart="@drawable/drawable_30_mins"
+                android:fontFamily="@font/inter_bold"
+                android:paddingStart="25dp"
+                android:paddingEnd="50dp"
+                android:text="Pomodoro \n( 30 Mins )"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/m60"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hint_timer_view" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/custom"
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:background="@drawable/selected_categories"
+                android:drawableStart="@drawable/drawable_custom_timer"
+                android:fontFamily="@font/inter_bold"
+                android:paddingStart="25dp"
+                android:paddingEnd="50dp"
+                android:text="Custom TImer"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m180" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/m120"
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:background="@drawable/profile_page_card"
+                android:drawableStart="@drawable/drawable_120_mins"
+                android:fontFamily="@font/inter_bold"
+                android:paddingStart="25dp"
+                android:paddingEnd="50dp"
+                android:text="Deep Work \n( 2 Hours + 15mins )"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/m180"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m60" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/m180"
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:background="@drawable/profile_page_card"
+                android:drawableStart="@drawable/drawable_180_mins"
+                android:fontFamily="@font/inter_bold"
+                android:paddingStart="25dp"
+                android:paddingEnd="50dp"
+                android:text="Deep Work \n( 3 hours + 15 mins )"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m120" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/m60"
+                android:layout_width="351dp"
+                android:layout_height="70dp"
+                android:background="@drawable/profile_page_card"
+                android:drawableStart="@drawable/drawable_60_mins"
+                android:fontFamily="@font/inter_bold"
+                android:paddingStart="25dp"
+                android:paddingEnd="50dp"
+                android:text="Pomodoro\n ( 1 hour + 5 mins )"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/m120"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m30" />
+
+            <TextView
+                android:id="@+id/hint_timer_view"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:text="Please Press A Button To Set Timer"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/m30"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timer_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
