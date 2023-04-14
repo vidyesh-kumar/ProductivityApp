@@ -1,25 +1,43 @@
 package com.example.madproject;
 import android.graphics.drawable.Drawable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Category {
     String categoryName;
     int categoryIconId;
-    int numberOfTasks;
-    Tasks tasks[] = null;
-    Category(String name, int iconId, int tasks)
-    {   this.categoryName=name;
-        this.categoryIconId=iconId;
-        this.numberOfTasks=tasks;
-    }
-    public String getName(){
-        return this.categoryName;
+    ArrayList<Tasks> Tasks = new ArrayList<>();
+    public String getTitle() {
+        return categoryName;
     }
 
-    public int getNumberOfTasks(){
-        return this.numberOfTasks;
+    public void setTitle(String title) {
+        this.categoryName = title;
     }
 
-    public Tasks[] getTasks() {
-        return this.tasks;
+    public int getImgid() {
+        return categoryIconId;
+    }
+
+    public void setImgid(int imgid) {
+        this.categoryIconId= imgid;
+    }
+
+    public Category(String title, int imgid) {
+        this.categoryName = title;
+        this.categoryIconId = imgid;
+    }
+
+    public ArrayList<Tasks> getTasks(){
+        return this.Tasks;
+    }
+    public void AddTasks(Tasks c) {
+        Tasks.add(c);
+        Tasks.sort(Comparator.comparing(com.example.madproject.Tasks::getEndDate));
+    }
+    public int getNoofTasks(){
+        return Tasks.size();
     }
 }

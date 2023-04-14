@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Base64;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,13 +27,14 @@ import java.util.Locale;
 
 public class Pomodoro extends AppCompatActivity {
     PreferenceManager preferenceManager;
-    ImageView profiledp,home;
+    ImageView profiledp,home,task;
 
     AppCompatButton m30,m60,m120,m180,custom;
 
     TextView timerView,hintView;
 
     Boolean isTimerActive;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,118 +43,111 @@ public class Pomodoro extends AppCompatActivity {
         getUI();
         profiledp.setOnClickListener(view -> setActivity(Profile.class));
         home.setOnClickListener(view -> setActivity(Home.class));
+        task.setOnClickListener(view->setActivity(AllTasks.class));
         timerListeners();
 
     }
 
     private void timerListeners() {
-        m30.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isTimerActive) {
-                    CountDownTimer main = new CountDownTimer(30*60*1000,1000) {
-                        @Override
-                        public void onTick(long l) {
-                            NumberFormat f = new DecimalFormat("00");
-                            long hour = (l/ 3600000) % 24;
-                            long min = (l / 60000) % 60;
-                            long sec = (l / 1000) % 60;
-                            timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
-                            hintView.setText("Timer Active");
-                        }
+        m30.setOnClickListener(view -> {
+            if(!isTimerActive) {
+                CountDownTimer main = new CountDownTimer(30*60*1000,1000) {
+                    @Override
+                    public void onTick(long l) {
+                        isTimerActive=true;
+                        NumberFormat f = new DecimalFormat("00");
+                        long hour = (l/ 3600000) % 24;
+                        long min = (l / 60000) % 60;
+                        long sec = (l / 1000) % 60;
+                        timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
+                        hintView.setText("Timer Active");
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            isTimerActive=false;
-                            timerView.setText("No Active Timers");
-                            hintView.setText("Please Press A Button To Set Timer");
-                        }
-                    }.start();
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFinish() {
+                        isTimerActive=false;
+                        timerView.setText("No Active Timers");
+                        hintView.setText("Please Press A Button To Set Timer");
+                    }
+                }.start();
             }
+            else
+                Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
         });
-        m60.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isTimerActive) {
-                    CountDownTimer main = new CountDownTimer(30*60*1000,1000) {
-                        @Override
-                        public void onTick(long l) {
-                            NumberFormat f = new DecimalFormat("00");
-                            long hour = (l/ 3600000) % 24;
-                            long min = (l / 60000) % 60;
-                            long sec = (l / 1000) % 60;
-                            timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
-                            hintView.setText("Timer Active");
-                        }
+        m60.setOnClickListener(view -> {
+            if(!isTimerActive) {
+                CountDownTimer main = new CountDownTimer(65*60*1000,1000) {
+                    @Override
+                    public void onTick(long l) {
+                        isTimerActive=true;
+                        NumberFormat f = new DecimalFormat("00");
+                        long hour = (l/ 3600000) % 24;
+                        long min = (l / 60000) % 60;
+                        long sec = (l / 1000) % 60;
+                        timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
+                        hintView.setText("Timer Active");
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            isTimerActive=false;
-                            timerView.setText("No Active Timers");
-                            hintView.setText("Please Press A Button To Set Timer");
-                        }
-                    }.start();
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFinish() {
+                        isTimerActive=false;
+                        timerView.setText("No Active Timers");
+                        hintView.setText("Please Press A Button To Set Timer");
+                    }
+                }.start();
             }
+            else
+                Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
         });
-        m120.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isTimerActive) {
-                    CountDownTimer main = new CountDownTimer(30*60*1000,1000) {
-                        @Override
-                        public void onTick(long l) {
-                            NumberFormat f = new DecimalFormat("00");
-                            long hour = (l/ 3600000) % 24;
-                            long min = (l / 60000) % 60;
-                            long sec = (l / 1000) % 60;
-                            timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
-                            hintView.setText("Timer Active");
-                        }
+        m120.setOnClickListener(view -> {
+            if(!isTimerActive) {
+                CountDownTimer main = new CountDownTimer(130*60*1000,1000) {
+                    @Override
+                    public void onTick(long l) {
+                        isTimerActive=true;
+                        NumberFormat f = new DecimalFormat("00");
+                        long hour = (l/ 3600000) % 24;
+                        long min = (l / 60000) % 60;
+                        long sec = (l / 1000) % 60;
+                        timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
+                        hintView.setText("Timer Active");
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            isTimerActive=false;
-                            timerView.setText("No Active Timers");
-                            hintView.setText("Please Press A Button To Set Timer");
-                        }
-                    }.start();
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFinish() {
+                        isTimerActive=false;
+                        timerView.setText("No Active Timers");
+                        hintView.setText("Please Press A Button To Set Timer");
+                    }
+                }.start();
             }
+            else
+                Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
         });
-        m180.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isTimerActive) {
-                    CountDownTimer main = new CountDownTimer(30*60*1000,1000) {
-                        @Override
-                        public void onTick(long l) {
-                            NumberFormat f = new DecimalFormat("00");
-                            long hour = (l/ 3600000) % 24;
-                            long min = (l / 60000) % 60;
-                            long sec = (l / 1000) % 60;
-                            timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
-                            hintView.setText("Timer Active");
-                        }
+        m180.setOnClickListener(view -> {
+            if(!isTimerActive) {
+                CountDownTimer main = new CountDownTimer(195*60*1000,1000) {
+                    @Override
+                    public void onTick(long l) {
+                        isTimerActive=true;
+                        NumberFormat f = new DecimalFormat("00");
+                        long hour = (l/ 3600000) % 24;
+                        long min = (l / 60000) % 60;
+                        long sec = (l / 1000) % 60;
+                        timerView.setText(f.format(hour) + ":" + f.format(min) + ":" + f.format(sec));
+                        hintView.setText("Timer Active");
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            isTimerActive=false;
-                            timerView.setText("No Active Timers");
-                            hintView.setText("Please Press A Button To Set Timer");
-                        }
-                    }.start();
-                }
-                else
-                    Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFinish() {
+                        isTimerActive=false;
+                        timerView.setText("No Active Timers");
+                        hintView.setText("Please Press A Button To Set Timer");
+                    }
+                }.start();
             }
+            else
+                Toast.makeText(getApplicationContext(),"A Timer Is Already Active",Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -171,10 +168,8 @@ public class Pomodoro extends AppCompatActivity {
         custom = findViewById(R.id.custom);
         timerView = findViewById(R.id.timer_text);
         hintView = findViewById(R.id.hint_timer_view);
-        if(timerView.getText().toString().equals("No Active Timers"))
-                isTimerActive=false;
-        else
-                isTimerActive=true;
+        task = findViewById(R.id.tas_button);
+        isTimerActive= !timerView.getText().toString().equals("No Active Timers");
         byte[] b = Base64.decode(preferenceManager.getString("image_data"), Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
         profiledp.setImageBitmap(bitmap);

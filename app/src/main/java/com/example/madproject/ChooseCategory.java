@@ -32,25 +32,28 @@ public class ChooseCategory extends AppCompatActivity {
             selected = findViewById(id);
             preferenceManager.setString("Occupation",selected.getText().toString()+"ing");
             ArrayList<Category> categories = new ArrayList<Category>();
+            ArrayList<Tasks> allTasks = new ArrayList<Tasks>();
             if(selected.getText().toString().equals("Work"))
-            {   categories.add(new Category("Work",R.drawable.drawable_work_icon,0));
-                categories.add(new Category("Urgent",R.drawable.drawable_urgent_icon,0));
+            {   categories.add(new Category("Work",R.drawable.drawable_work_icon));
+                categories.add(new Category("Urgent",R.drawable.drawable_urgent_icon));
             }
             else
-            {   categories.add(new Category("Study",R.drawable.drawable_study_icon,0));
-                categories.add(new Category("Urgent",R.drawable.drawable_urgent_icon,0));
+            {   categories.add(new Category("Study",R.drawable.drawable_study_icon));
+                categories.add(new Category("Urgent",R.drawable.drawable_urgent_icon));
             }
             if(fit.isChecked())
-                categories.add(new Category("Fitness",R.drawable.drawable_fitness_icon,0));
+                categories.add(new Category("Fitness",R.drawable.drawable_fitness_icon));
             if(hobby.isChecked())
-                categories.add(new Category("Hobbies",R.drawable.drawable_hobby_icon,0));
+                categories.add(new Category("Hobbies",R.drawable.drawable_hobby_icon));
             if(projects.isChecked())
-                categories.add(new Category("Projects",R.drawable.drawable_project_icon,0));
+                categories.add(new Category("Projects",R.drawable.drawable_project_icon));
             if(entertainment.isChecked())
-                categories.add(new Category("Entertainment",R.drawable.drawable_entertainment_icon,0));
+                categories.add(new Category("Entertainment",R.drawable.drawable_entertainment_icon));
             Gson gson = new Gson();
-            String json = gson.toJson(categories);
-            preferenceManager.setString("Categories",json);
+            String catjson = gson.toJson(categories);
+            preferenceManager.setString("Categories",catjson);
+            String taskjson = gson.toJson(allTasks);
+            preferenceManager.setString("Tasks",taskjson);
             setActivity(Home.class);
         });
     }
