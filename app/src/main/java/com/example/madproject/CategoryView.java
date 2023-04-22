@@ -35,7 +35,7 @@ public class CategoryView extends AppCompatActivity implements TaskRecycleListen
         profile.setOnClickListener(view -> setActivity(Profile.class));
         pomo.setOnClickListener(view -> setActivity(Pomodoro.class));
         home.setOnClickListener(view -> setActivity(Home.class));
-        task.setOnClickListener(view -> setActivity(Home.class));
+        task.setOnClickListener(view -> setActivity(AllTasks.class));
     }
 
     private void getUI()

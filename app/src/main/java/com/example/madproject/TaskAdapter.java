@@ -62,6 +62,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.RecyclerViewHo
         }
         Date today = new Date();
         Date startDate = recyclerData.getStartDate();
+        Date endDate = recyclerData.getEndDate();
         if(startDate.getTime() - today.getTime()>0) {
             long diffInMillies = Math.abs(startDate.getTime() - today.getTime());
             long diff = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
@@ -74,8 +75,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.RecyclerViewHo
                 holder.date.setText("Starts Soon");
             holder.image_container.setCardBackgroundColor(Color.rgb(30,30,30));
         }
-        else
-        {   Date endDate = recyclerData.getEndDate();
+        else if(endDate.getTime()-System.currentTimeMillis()>0)
+        {
             long diffInMillies = Math.abs(endDate.getTime() - today.getTime());
             long diff = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
             if (diff > 23) {
@@ -85,6 +86,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.RecyclerViewHo
                 holder.date.setText("Ends in " + diff + " Hours");
             } else
                 holder.date.setText("Ends Soon");
+        }
+        else
+        {   long diffInMillies = Math.abs(today.getTime() - endDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            if (diff==0) {
+                holder.date.setText("Due Today");
+            }
+            else
+            {   holder.date.setText("Overdue by " + diff + " Days");
+            }
+            holder.image_container.setCardBackgroundColor(Color.rgb(30,30,30));
         }
         holder.container.setOnClickListener(view -> listener.onItemClicked(tasks.get(holder.getAdapterPosition())));
     }

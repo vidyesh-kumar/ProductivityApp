@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +26,8 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
     PreferenceManager preferenceManager;
 
     RecyclerView view;
+
+    ImageView profiledp;
 
     ArrayList<Tasks> allTasks;
     ImageView home,pomo;
@@ -49,7 +54,13 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         pomo = findViewById(R.id.pomo_set_button);
         view = findViewById(R.id.alltaskRecycler);
         preferenceManager = PreferenceManager.getInstance(this);
+        profiledp= findViewById(R.id.task_profile);
         String taskJson=preferenceManager.getString("Tasks");
+
+        byte[] b = Base64.decode(preferenceManager.getString("image_data"), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+        profiledp.setImageBitmap(bitmap);
+
         Gson gson = new Gson();
         allTasks = gson.fromJson(taskJson,new TypeToken<ArrayList<Tasks>>(){}.getType());
         TaskAdapter adapter=new TaskAdapter(allTasks,this,this);
