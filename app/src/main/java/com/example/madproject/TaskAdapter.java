@@ -61,20 +61,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.RecyclerViewHo
                                     break;
         }
         Date today = new Date();
-        Date endDate = recyclerData.getEndDate();
-        long diffInMillies = Math.abs(endDate.getTime() - today.getTime());
-        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        if(diff>30){
-            SimpleDateFormat sg = new SimpleDateFormat("dd/MM/yyyy");
-            holder.date.setText(sg.format(endDate));
+        Date startDate = recyclerData.getStartDate();
+        if(startDate.getTime() - today.getTime()>0) {
+            long diffInMillies = Math.abs(startDate.getTime() - today.getTime());
+            long diff = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            if (diff > 23) {
+                diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                holder.date.setText("Starts in " + diff + " Days");
+            } else if (diff >= 2) {
+                holder.date.setText("Starts in " + diff + " Hours");
+            } else
+                holder.date.setText("Starts Soon");
+            holder.image_container.setCardBackgroundColor(Color.rgb(30,30,30));
         }
-        else if(diff<30&&diff>2)
-        {   holder.date.setText(diff+" Days");
-        }
-        else if(diff<2&&diff>0)
-            holder.date.setText("Today");
         else
-            holder.date.setText("Soon");
+        {   Date endDate = recyclerData.getEndDate();
+            long diffInMillies = Math.abs(endDate.getTime() - today.getTime());
+            long diff = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            if (diff > 23) {
+                diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                holder.date.setText("Ends in " + diff + " Days");
+            } else if (diff >= 2) {
+                holder.date.setText("Ends in " + diff + " Hours");
+            } else
+                holder.date.setText("Ends Soon");
+        }
         holder.container.setOnClickListener(view -> listener.onItemClicked(tasks.get(holder.getAdapterPosition())));
     }
 

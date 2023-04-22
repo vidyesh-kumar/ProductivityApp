@@ -1,8 +1,5 @@
 package com.example.madproject;
 
-
-import android.annotation.SuppressLint;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,17 +12,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-
-public class TimerReciever extends BroadcastReceiver {
+public class TaskEndReciever extends BroadcastReceiver {
     MediaPlayer mp;
     public void onReceive(Context context, Intent intent) {
-        Intent i = new Intent(context, Pomodoro.class);
+        Intent i = new Intent(context,AllTasks.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pi = PendingIntent.getActivity(context,0,i,PendingIntent.FLAG_IMMUTABLE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "TimerNotification")
+        PendingIntent pi = PendingIntent.getActivity(context,2,i,PendingIntent.FLAG_IMMUTABLE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "TaskNotification")
                 .setSmallIcon(R.mipmap.launch_icon)
-                .setContentTitle("Timer Update!!!")
-                .setContentText("Scheduled Pomodoro Completed")
+                .setContentTitle("Task Update!!!")
+                .setContentText("A Task Is Due Today...Did You Complete It ?")
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_SOUND)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -36,10 +32,11 @@ public class TimerReciever extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManagerCompat.notify(101, builder.build());
+            notificationManagerCompat.notify(103, builder.build());
 
         }
 
 
     }
 }
+

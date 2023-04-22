@@ -52,6 +52,9 @@
             </intent-filter>
         </activity>
         <receiver android:name=".TimerReciever"/>
+        <receiver android:name=".TaskStartReciever"/>
+        <receiver android:name=".TaskEndReciever"/>
+        <receiver android:name=".BreakReciever"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

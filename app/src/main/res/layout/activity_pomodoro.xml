@@ -187,7 +187,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:paddingStart="25dp"
                 android:paddingEnd="50dp"
-                android:text="Deep Work \n( 2 Hours + 15mins )"
+                android:text="Deep Work \n( 2 Hours + 10mins )"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/m180"
                 app:layout_constraintEnd_toEndOf="parent"

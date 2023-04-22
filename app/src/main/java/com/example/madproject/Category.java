@@ -35,7 +35,7 @@ public class Category {
     }
     public void AddTasks(Tasks c) {
         Tasks.add(c);
-        Tasks.sort(Comparator.comparing(com.example.madproject.Tasks::getEndDate));
+        Tasks.sort(Comparator.comparing(com.example.madproject.Tasks::getStartDate));
     }
     public int getNoofTasks(){
         return Tasks.size();
