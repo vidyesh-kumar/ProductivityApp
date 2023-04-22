@@ -169,10 +169,11 @@ public class AddTask extends AppCompatActivity {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        int style = DatePickerDialog.THEME_HOLO_DARK;
+        int style = R.style.MySpinnerDatePickerStyle;
 
         datePickerDialog = new DatePickerDialog(this,style,dateSetListener,year,month,day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+        datePickerDialog.setTitle("Select Date");
         datePickerDialog.show();
     }
 
@@ -209,9 +210,10 @@ public class AddTask extends AppCompatActivity {
         int hour = c.get(Calendar.HOUR);
         int minute = c.get(Calendar.MINUTE);
 
-        int style = TimePickerDialog.THEME_HOLO_DARK;
+        int style = R.style.MySpinnerTimePickerStyle;
 
         timePickerDialog = new TimePickerDialog(this,style,timeSetListener,hour,minute,false);
+        timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
     }
 }

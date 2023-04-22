@@ -30,4 +30,31 @@
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="MySpinnerDatePickerStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:datePickerStyle">@style/MySpinnerDatePicker</item>
+        <item name="android:background">@color/back</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="MySpinnerDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:fontFamily">@font/inter_semi</item>
+        <item name="android:background">@color/back</item>
+        <!-- Divider color -->
+        <item name="colorControlNormal">@color/heading_gray</item>
+    </style>
+
+    <style name="MySpinnerTimePickerStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:timePickerStyle">@style/MySpinnerTimePicker</item>
+        <item name="android:background">@color/back</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+    <style name="MySpinnerTimePicker" parent="android:Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
 </resources>
