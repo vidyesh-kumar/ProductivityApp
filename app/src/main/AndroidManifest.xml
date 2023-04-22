@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MADProject"
         tools:targetApi="31">
         <activity
+            android:name=".EditTask"
+            android:exported="false" />
+        <activity
             android:name=".AddTask"
             android:exported="false" />
         <activity
@@ -51,10 +54,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".TimerReciever"/>
-        <receiver android:name=".TaskStartReciever"/>
-        <receiver android:name=".TaskEndReciever"/>
-        <receiver android:name=".BreakReciever"/>
+
+        <receiver android:name=".TimerReciever" />
+        <receiver android:name=".TaskStartReciever" />
+        <receiver android:name=".TaskEndReciever" />
+        <receiver android:name=".BreakReciever" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
