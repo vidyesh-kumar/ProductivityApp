@@ -1,36 +1,52 @@
 package com.example.madproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.GridLayoutManager;
+//import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+//import android.view.View;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+//import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
 public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
     AppCompatButton move;
     PreferenceManager preferenceManager;
-
+    private RecyclerView courseRV;
+    private TaskAdapter recyclerViewHolder;
+     TaskRecycleListener listener;
     RecyclerView view;
-
+    Category catSelected;
     ImageView profiledp;
-
+    ArrayList<Category> categories;
     ArrayList<Tasks> allTasks;
+    TextView startDate,endDate;
+    EditText name,desc;
     ImageView home,pomo;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +55,95 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         move.setOnClickListener(view -> setActivity(AddTask.class));
         home.setOnClickListener(view -> setActivity(Home.class));
         pomo.setOnClickListener(view -> setActivity(Pomodoro.class));
+        // on below line we are creating a method to create item touch helper
+        // method for adding swipe to delete functionality.
+        // in this we are specifying drag direction and position to right
+        courseRV=findViewById(R.id.alltaskRecycler);
+        startDate = findViewById(R.id.task_date);
+        endDate=findViewById(R.id.task_date_end);
+        name = findViewById(R.id.task_name);
+        desc = findViewById(R.id.task_note);
+       recyclerViewHolder = new TaskAdapter(allTasks,this,listener);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                // this method is called
+                // when the item is moved.
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+               // this method is called when we swipe our item to right direction.
+                    // on below line we are getting the item at a particular position.
+                    Tasks deletedCourse = allTasks.get(viewHolder.getAdapterPosition());
+
+                    // below line is to get the position
+                    // of the item at that position.
+                    int position = viewHolder.getAdapterPosition();
+
+                    // this method is called when item is swiped.
+                    // below line is to remove item from our array list.
+
+                    allTasks.remove(viewHolder.getAdapterPosition());
+                    allTasks.sort(Comparator.comparing(Tasks::getEndDate));
+                    for (Category c : categories) {
+                        if (deletedCourse.getCatname().equals(c.getTitle())) {
+                            ArrayList<Tasks> catTasks = new ArrayList<Tasks>(c.getTasks());
+                            for (Tasks T : catTasks) {
+                                if (T.getName().equals(deletedCourse.getName())) {
+                                    c.RemoveTasks(T);
+                                }
+                            }
+                        }
+                    }
+                    Gson gson = new Gson();
+                    String catJson = gson.toJson(categories);
+                    preferenceManager.setString("Categories", catJson);
+                    String taskJson = gson.toJson(allTasks);
+                    preferenceManager.setString("Tasks", taskJson);
+                    // below line is to notify our item is removed from adapter.
+                    recyclerViewHolder.notifyItemRemoved(viewHolder.getAdapterPosition());
+
+                    if(direction==ItemTouchHelper.LEFT)
+                    {
+                        setActivity(EditTask.class);
+                        finish();
+                    }
+                    // below line is to display our snackbar with action.
+                    Snackbar.make(courseRV, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            allTasks.add(position, deletedCourse);
+                            for (Category c : categories) {
+                                if (deletedCourse.getCatname().equals(c.getTitle())) {
+                                    c.AddTasks(deletedCourse);
+                                }
+                            }
+                            Gson gson = new Gson();
+                            String catJson = gson.toJson(categories);
+                            preferenceManager.setString("Categories", catJson);
+                            String taskJson = gson.toJson(allTasks);
+                            preferenceManager.setString("Tasks", taskJson);
+                            // below line is to notify item is
+                            // added to our adapter class.
+                            recyclerViewHolder.notifyItemInserted(position);
+                        }
+
+                        // adding on click listener to our action of snack bar.
+                        // below line is to add our item to array list with a position.
+
+
+
+                    }).show();
+
+                }
+                // at last we are adding this
+                // to our recycler view.
+
+        }).attachToRecyclerView(courseRV);
     }
+
 
     private void setActivity(Class ctx) {
         Intent i = new Intent(getApplicationContext(),ctx);
@@ -56,13 +160,14 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         preferenceManager = PreferenceManager.getInstance(this);
         profiledp= findViewById(R.id.task_profile);
         String taskJson=preferenceManager.getString("Tasks");
-
+        String catJson=preferenceManager.getString("Categories");
         byte[] b = Base64.decode(preferenceManager.getString("image_data"), Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
         profiledp.setImageBitmap(bitmap);
 
         Gson gson = new Gson();
         allTasks = gson.fromJson(taskJson,new TypeToken<ArrayList<Tasks>>(){}.getType());
+        categories = gson.fromJson(catJson,new TypeToken<ArrayList<Category>>(){}.getType());
         TaskAdapter adapter=new TaskAdapter(allTasks,this,this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         view.setLayoutManager(layoutManager);
@@ -73,6 +178,7 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
 
     @Override
     public void onItemClicked(Tasks c) {
-        Toast.makeText(getApplicationContext(),c.getName(),Toast.LENGTH_SHORT).show();
+       setActivity(EditTask.class);
+       finish();
     }
 }

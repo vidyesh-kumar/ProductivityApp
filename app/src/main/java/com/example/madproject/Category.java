@@ -12,7 +12,6 @@ public class Category {
     public String getTitle() {
         return categoryName;
     }
-
     public void setTitle(String title) {
         this.categoryName = title;
     }
@@ -37,7 +36,13 @@ public class Category {
         Tasks.add(c);
         Tasks.sort(Comparator.comparing(com.example.madproject.Tasks::getStartDate));
     }
+    public void RemoveTasks(Tasks T){
+        Tasks.remove(T);
+        Tasks.sort(Comparator.comparing(com.example.madproject.Tasks::getStartDate));
+    }
+
     public int getNoofTasks(){
         return Tasks.size();
     }
+
 }

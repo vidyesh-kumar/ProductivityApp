@@ -2,6 +2,8 @@ package com.example.madproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -32,6 +35,7 @@ import java.util.Date;
 
 public class AddTask extends AppCompatActivity {
     AutoCompleteTextView dropdown;
+
     AppCompatButton submit,goback;
     EditText name,desc;
     ArrayList<String> values;
@@ -51,11 +55,17 @@ public class AddTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      //  recyclerViewHolder=new TaskAdapter.RecyclerViewHolder(this);
         setContentView(R.layout.activity_add_task);
         getGUI();
         dropdown.setOnItemClickListener((adapterView, view, i, l) -> {
             String selected = adapterView.getItemAtPosition(i).toString();
             catSelected = categories.get(i);
+
+
+
+
+
         });
         goback.setOnClickListener(view -> setActivity(AllTasks.class));
         submit.setOnClickListener(view -> {
