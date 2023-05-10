@@ -183,6 +183,146 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="20dp">
+
+                    <ProgressBar
+                        android:id="@+id/pb"
+                        style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@color/card_fill"
+                        android:hapticFeedbackEnabled="true"
+                        android:progressBackgroundTint="@color/white"
+                        android:progressBackgroundTintMode="src_in"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/deleted" />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/inter_bold"
+                        android:padding="2dp"
+                        android:text="Productivity Perc"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toTopOf="@+id/perc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/perc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_bold"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="AB %"
+                        android:textColor="@color/white"
+                        android:textSize="34sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView11"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/remaining"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toTopOf="@+id/completed"
+                        app:layout_constraintEnd_toStartOf="@+id/textView11"
+                        app:layout_constraintStart_toEndOf="@+id/textView20"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/completed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toTopOf="@+id/deleted"
+                        app:layout_constraintEnd_toEndOf="@+id/remaining"
+                        app:layout_constraintStart_toStartOf="@+id/remaining"
+                        app:layout_constraintTop_toBottomOf="@+id/remaining" />
+
+                    <TextView
+                        android:id="@+id/deleted"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toTopOf="@+id/pb"
+                        app:layout_constraintEnd_toEndOf="@+id/completed"
+                        app:layout_constraintStart_toStartOf="@+id/completed"
+                        app:layout_constraintTop_toBottomOf="@+id/completed" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="5dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:text="Remaining"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/remaining"
+                        app:layout_constraintEnd_toStartOf="@+id/remaining"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/remaining"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginEnd="28dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:text="Completed"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/completed"
+                        app:layout_constraintEnd_toStartOf="@+id/completed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/completed" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginEnd="28dp"
+                        android:fontFamily="@font/inter_semi"
+                        android:padding="2dp"
+                        android:text="Deleted"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@+id/deleted"
+                        app:layout_constraintEnd_toStartOf="@+id/deleted"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/deleted" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <TextView

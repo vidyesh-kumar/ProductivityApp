@@ -82,4 +82,8 @@ public class Tasks {
     public int getTimerId() {
         return timerId;
     }
+
+    public boolean getCompleted()
+    {   return completed;
+    }
 }

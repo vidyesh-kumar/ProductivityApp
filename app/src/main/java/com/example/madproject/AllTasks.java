@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Base64;
@@ -36,6 +37,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -53,6 +55,12 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
     TextView startDate,endDate;
     EditText name,desc;
     ImageView home,pomo;
+
+    int Completed,Deleted;
+
+    String Deletetext;
+    int Icon;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +79,11 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         endDate=findViewById(R.id.task_date_end);
         name = findViewById(R.id.task_name);
         desc = findViewById(R.id.task_note);
-       recyclerViewHolder = new TaskAdapter(allTasks,this,listener);
+        recyclerViewHolder = new TaskAdapter(allTasks,this,listener);
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP| ItemTouchHelper.DOWN,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
                 // this method is called
                 // when the item is moved.
                 return false;
@@ -90,14 +99,13 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                // this method is called when we swipe our item to right direction.
                 else
                 {   Tasks deletedCourse = allTasks.get(viewHolder.getAdapterPosition());
-
-                    // below line is to get the position
-                    // of the item at that position.
-
-
-                    // this method is called when item is swiped.
-                    // below line is to remove item from our array list.
-
+                    long currentTime = System.currentTimeMillis();
+                    if(deletedCourse.getStartDate().getTime()<=currentTime && currentTime<deletedCourse.getEndDate().getTime())
+                    {   Completed++;
+                    }
+                    else
+                    {   Deleted++;
+                    }
                     allTasks.remove(viewHolder.getAdapterPosition());
                     allTasks.sort(Comparator.comparing(Tasks::getEndDate));
                     for (Category c : categories) {
@@ -133,6 +141,12 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                     Snackbar.make(courseRV, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if(Deletetext=="Complete")
+                            {   Completed--;
+                            }
+                            else
+                            {   Deleted--;
+                            }
                             allTasks.add(position, deletedCourse);
                             for (Category c : categories) {
                                 if (deletedCourse.getCatname().equals(c.getTitle())) {
@@ -153,6 +167,8 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
 
 
                     }).show();
+                    preferenceManager.setString("Completed",""+Completed);
+                    preferenceManager.setString("Deleted",""+Deleted);
                     new CountDownTimer(3000, 1000) {
                         @Override
                         public void onTick(long l) {
@@ -168,7 +184,16 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                 }
 
             public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
-
+                Tasks deletedCourse = allTasks.get(viewHolder.getAdapterPosition());
+                long currentTime = System.currentTimeMillis();
+                if(deletedCourse.getStartDate().getTime()<=currentTime && currentTime<deletedCourse.getEndDate().getTime())
+                {   Deletetext = "Complete";
+                    Icon = R.drawable.success_icon;
+                }
+                else
+                {   Deletetext = "Delete";
+                    Icon = R.drawable.trash_icon;
+                }
                 Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.inter_semi);
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(AllTasks.this, R.color.back))
@@ -176,12 +201,12 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                         .setSwipeRightLabelTextSize(TypedValue.COMPLEX_UNIT_SP,22)
                         .setSwipeLeftLabelTextSize(TypedValue.COMPLEX_UNIT_SP,22)
                         .addSwipeLeftActionIcon(R.drawable.pencil_icon)
-                        .addSwipeRightActionIcon(R.drawable.trash_icon)
+                        .addSwipeRightActionIcon(Icon)
                         .setSwipeLeftLabelColor(Color.WHITE)
                         .setSwipeRightLabelColor(Color.WHITE)
                         .setSwipeLeftLabelTypeface(typeface)
                         .setSwipeRightLabelTypeface(typeface)
-                        .addSwipeRightLabel("  Delete")
+                        .addSwipeRightLabel("  "+Deletetext)
                         .addSwipeLeftLabel("Edit   ")
                         .create()
                         .decorate();
@@ -230,6 +255,9 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         categories = gson.fromJson(catJson,new TypeToken<ArrayList<Category>>(){}.getType());
         TaskAdapter adapter=new TaskAdapter(allTasks,this,this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+
+        Completed = Integer.parseInt(preferenceManager.getString("Completed"));
+        Deleted = Integer.parseInt(preferenceManager.getString("Deleted"));
         view.setLayoutManager(layoutManager);
         ItemOffsetDecorator itemDecoration = new ItemOffsetDecorator(getApplicationContext(),R.dimen.gap);
         view.addItemDecoration(itemDecoration);

@@ -123,12 +123,5 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.RecyclerViewHo
             image_container = itemView.findViewById(R.id.task_image_container);
             container = itemView.findViewById(R.id.task_container_card);
         }
-
-        public void notifyItemRemoved(int adapterPosition) {
-
-        }
-
-        public void notifyItemInserted(int position) {
-        }
     }
 }
