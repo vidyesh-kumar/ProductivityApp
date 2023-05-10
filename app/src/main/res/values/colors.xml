@@ -9,4 +9,6 @@
     <color name="heading_gray">#4F4F4F</color>
     <color name="card_fill">#333333</color>
     <color name="category_fill">#A57110</color>
+    <color name="colorAccent">#DF1B0D</color>
+    <color name="green">#16D11D</color>
 </resources>
