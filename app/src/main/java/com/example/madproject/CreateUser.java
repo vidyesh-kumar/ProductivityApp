@@ -60,6 +60,7 @@ public class CreateUser extends AppCompatActivity {
             {   preferenceManager.setString("Username", username);
                 preferenceManager.setString("UserEmail", useremail);
                 preferenceManager.setString("Age", "" + age);
+                preferenceManager.setString("TimerId",""+0);
                 setActivity(ChooseCategory.class);
             }
         });

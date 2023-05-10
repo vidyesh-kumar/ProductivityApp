@@ -79,4 +79,10 @@ public class CategoryView extends AppCompatActivity implements TaskRecycleListen
     public void onItemClicked(Tasks c) {
         
     }
+
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),Home.class);
+        startActivity(i);
+        finish();
+    }
 }

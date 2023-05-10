@@ -147,6 +147,12 @@ public class Pomodoro extends AppCompatActivity {
     private void setActivity(Class ctx) {
         Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
+        finish();
+    }
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),Home.class);
+        startActivity(i);
+        finish();
     }
 
     private void getUI() {

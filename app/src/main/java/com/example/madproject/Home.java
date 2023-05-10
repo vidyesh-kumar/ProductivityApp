@@ -65,6 +65,7 @@ public class Home extends AppCompatActivity implements RecycleListener {
     protected void setActivity(Class ctx)
     {   Intent i = new Intent(getApplicationContext(),ctx);
         startActivity(i);
+        finish();
     }
 
     @Override
@@ -74,5 +75,6 @@ public class Home extends AppCompatActivity implements RecycleListener {
         b.putString("Header",c.getTitle());
         i.putExtras(b);
         startActivity(i);
+        finish();
     }
 }

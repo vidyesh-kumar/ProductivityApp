@@ -4,13 +4,15 @@ import java.util.Date;
 
 public class Tasks {
     Date startDate;
+
+    int timerId;
     Date endDate;
     boolean completed;
     String name;
     String Desc;
     int Caticon;
     String Catname;
-    Tasks(Date start,Date end,String name,String Desc,String Cat,int Caticon)
+    Tasks(Date start,Date end,String name,String Desc,String Cat,int Caticon,int timerId)
     {   this.startDate=start;
         this.endDate=end;
         this.name = name;
@@ -18,6 +20,7 @@ public class Tasks {
         this.completed=false;
         this.Catname=Cat;
         this.Caticon = Caticon;
+        this.timerId = timerId;
     }
 
     public void setCompleted(boolean completed) {
@@ -76,5 +79,7 @@ public class Tasks {
         this.startDate = startDate;
     }
 
-
+    public int getTimerId() {
+        return timerId;
+    }
 }

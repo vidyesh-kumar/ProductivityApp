@@ -34,14 +34,15 @@ import java.util.Date;
 public class EditTask extends AppCompatActivity {
     AutoCompleteTextView edropdown;
 
+    Tasks tasktoEdit;
+
+    int taskPos;
+
     AppCompatButton esubmit,egoback;
     EditText ename,edesc;
-    ArrayList<String> evalues;
     ArrayList<Category> ecategories;
     ArrayList<Tasks> eallTasks;
-    ArrayAdapter<String> edropdownValues;
     PreferenceManager epreferenceManager;
-    Category ecatSelected;
     TextView estartDate,eendDate;
     DatePickerDialog edatePickerDialog;
     DatePickerDialog.OnDateSetListener edateSetListener;
@@ -56,15 +57,6 @@ public class EditTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
         getGUI();
-        edropdown.setOnItemClickListener((adapterView, view, i, l) -> {
-            String selected = adapterView.getItemAtPosition(i).toString();
-            ecatSelected = ecategories.get(i);
-
-
-
-
-
-        });
         egoback.setOnClickListener(view -> setActivity(AllTasks.class));
         esubmit.setOnClickListener(view -> {
             String taskname = ename.getText().toString();
@@ -93,28 +85,44 @@ public class EditTask extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-                Tasks newTask = new Tasks(startdate, enddate, taskname, taskdesc, ecatSelected.getTitle(), ecatSelected.getImgid());
-                eallTasks.add(newTask);
-                eallTasks.sort(Comparator.comparing(Tasks::getEndDate));
+                tasktoEdit.setName(taskname);
+                tasktoEdit.setDesc(taskdesc);
+                tasktoEdit.setStartDate(startdate);
+                tasktoEdit.setEndDate(enddate);
+
                 Gson gson = new Gson();
                 String taskJson = gson.toJson(eallTasks);
                 epreferenceManager.setString("Tasks",taskJson);
+
                 for(Category c:ecategories)
-                {   if(ecatSelected.getTitle().equals(c.getTitle()))
-                    c.AddTasks(newTask);
+                {   if(tasktoEdit.getCatname().equals(c.getTitle()))
+                    {   ArrayList<Tasks> catTasks = new ArrayList<>(c.getTasks());
+                        for(Tasks T :catTasks)
+                        {   if(eallTasks.get(taskPos).getName().equals(T.getName()))
+                            {   c.RemoveTasks(T);
+                                c.AddTasks(tasktoEdit);
+                            }
+                        }
+                    }
                 }
                 String catJson = gson.toJson(ecategories);
                 epreferenceManager.setString("Categories",catJson);
 
                 ealrm1 = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent iStart = new Intent(getApplicationContext(), TaskStartReciever.class);
-                PendingIntent piStart = PendingIntent.getBroadcast(getApplicationContext(),(int)System.currentTimeMillis(),iStart,PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent piStart = PendingIntent.getBroadcast(getApplicationContext(),tasktoEdit.getTimerId(),iStart,PendingIntent.FLAG_IMMUTABLE);
+                ealrm1.cancel(piStart);
                 ealrm1.setExact(AlarmManager.RTC_WAKEUP,startdate.getTime(),piStart);
 
                 ealrm2 = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent iEnd = new Intent(getApplicationContext(), TaskEndReciever.class);
-                PendingIntent piEnd = PendingIntent.getBroadcast(getApplicationContext(), (int)System.currentTimeMillis(),iEnd,PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent piEnd = PendingIntent.getBroadcast(getApplicationContext(), tasktoEdit.getTimerId(),iEnd,PendingIntent.FLAG_IMMUTABLE);
+                ealrm2.cancel(piEnd);
                 ealrm2.setExact(AlarmManager.RTC_WAKEUP,enddate.getTime(),piEnd);
+
+                eallTasks.remove(taskPos);
+                eallTasks.add(tasktoEdit);
+                eallTasks.sort(Comparator.comparing(Tasks::getEndDate));
                 setActivity(AllTasks.class);
 
             }
@@ -136,12 +144,18 @@ public class EditTask extends AppCompatActivity {
         String taskJson = epreferenceManager.getString("Tasks");
         eallTasks = gson.fromJson(taskJson,new TypeToken<ArrayList<Tasks>>(){}.getType());
         ecategories = gson.fromJson(catJson,new TypeToken<ArrayList<Category>>(){}.getType());
-        evalues = new ArrayList<>();
-        for(Category c:ecategories)
-        {   evalues.add(c.getTitle());
-        }
-        edropdownValues = new ArrayAdapter<>(this, R.layout.category_list, evalues);
-        edropdown.setAdapter(edropdownValues);
+
+        Bundle b = getIntent().getExtras();
+        taskPos = b.getInt("TaskPosition");
+        tasktoEdit = eallTasks.get(taskPos);
+        ename.setText(tasktoEdit.getName());
+        edropdown.setText(tasktoEdit.getCatname());
+        SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
+        String startDateText = sf.format(tasktoEdit.getStartDate());
+        String endDateText = sf.format(tasktoEdit.getEndDate());
+        estartDate.setText(startDateText);
+        eendDate.setText(endDateText);
+        edesc.setText(tasktoEdit.getDesc());
         createNotificationChannel();
     }
 
@@ -223,5 +237,11 @@ public class EditTask extends AppCompatActivity {
         etimePickerDialog = new TimePickerDialog(this,style,etimeSetListener,hour,minute,false);
         etimePickerDialog.setTitle("Select Time");
         etimePickerDialog.show();
+    }
+
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),AllTasks.class);
+        startActivity(i);
+        finish();
     }
 }

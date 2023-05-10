@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,24 +22,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 //import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 
 public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
     AppCompatButton move;
     PreferenceManager preferenceManager;
     private RecyclerView courseRV;
     private TaskAdapter recyclerViewHolder;
-     TaskRecycleListener listener;
+    TaskRecycleListener listener;
     RecyclerView view;
     Category catSelected;
     ImageView profiledp;
@@ -55,6 +53,7 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
         move.setOnClickListener(view -> setActivity(AddTask.class));
         home.setOnClickListener(view -> setActivity(Home.class));
         pomo.setOnClickListener(view -> setActivity(Pomodoro.class));
+        profiledp.setOnClickListener(view -> setActivity(Profile.class));
         // on below line we are creating a method to create item touch helper
         // method for adding swipe to delete functionality.
         // in this we are specifying drag direction and position to right
@@ -74,13 +73,18 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if(direction==ItemTouchHelper.LEFT)
+                {
+                    setActivityWithContent(EditTask.class,position);
+                }
                // this method is called when we swipe our item to right direction.
-                    // on below line we are getting the item at a particular position.
-                    Tasks deletedCourse = allTasks.get(viewHolder.getAdapterPosition());
+                else
+                {   Tasks deletedCourse = allTasks.get(viewHolder.getAdapterPosition());
 
                     // below line is to get the position
                     // of the item at that position.
-                    int position = viewHolder.getAdapterPosition();
+
 
                     // this method is called when item is swiped.
                     // below line is to remove item from our array list.
@@ -105,11 +109,17 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                     // below line is to notify our item is removed from adapter.
                     recyclerViewHolder.notifyItemRemoved(viewHolder.getAdapterPosition());
 
-                    if(direction==ItemTouchHelper.LEFT)
-                    {
-                        setActivity(EditTask.class);
-                        finish();
-                    }
+                    AlarmManager ealrm1 = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    Intent iStart = new Intent(getApplicationContext(), TaskStartReciever.class);
+                    PendingIntent piStart = PendingIntent.getBroadcast(getApplicationContext(), deletedCourse.getTimerId(), iStart, PendingIntent.FLAG_IMMUTABLE);
+                    ealrm1.cancel(piStart);
+
+                    AlarmManager ealrm2 = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    Intent iEnd = new Intent(getApplicationContext(), TaskEndReciever.class);
+                    PendingIntent piEnd = PendingIntent.getBroadcast(getApplicationContext(), deletedCourse.getTimerId(), iEnd, PendingIntent.FLAG_IMMUTABLE);
+                    ealrm2.cancel(piEnd);
+
+
                     // below line is to display our snackbar with action.
                     Snackbar.make(courseRV, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
                         @Override
@@ -134,14 +144,23 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                         // below line is to add our item to array list with a position.
 
 
-
                     }).show();
+                }
 
                 }
                 // at last we are adding this
                 // to our recycler view.
 
         }).attachToRecyclerView(courseRV);
+    }
+
+    private void setActivityWithContent(Class ctx,int position) {
+        Intent i = new Intent(getApplicationContext(),ctx);
+        Bundle b = new Bundle();
+        b.putInt("TaskPosition",position);
+        i.putExtras(b);
+        startActivity(i);
+        finish();
     }
 
 
@@ -178,7 +197,14 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
 
     @Override
     public void onItemClicked(Tasks c) {
-       setActivity(EditTask.class);
-       finish();
+        int position = allTasks.indexOf(c);
+        setActivityWithContent(ViewTask.class,position);
+        finish();
+    }
+
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),Home.class);
+        startActivity(i);
+        finish();
     }
 }

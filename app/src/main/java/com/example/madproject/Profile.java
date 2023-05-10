@@ -54,4 +54,9 @@ public class Profile extends AppCompatActivity {
         user.setText(preferenceManager.getString("Username"));
         useremail.setText(preferenceManager.getString("UserEmail"));
     }
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),Home.class);
+        startActivity(i);
+        finish();
+    }
 }

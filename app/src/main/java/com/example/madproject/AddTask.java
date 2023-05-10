@@ -2,8 +2,6 @@ package com.example.madproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -52,6 +49,8 @@ public class AddTask extends AppCompatActivity {
     TimePickerDialog.OnTimeSetListener timeSetListener;
     AlarmManager alrm1,alrm2;
     String datetime;
+
+    int TimerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +60,6 @@ public class AddTask extends AppCompatActivity {
         dropdown.setOnItemClickListener((adapterView, view, i, l) -> {
             String selected = adapterView.getItemAtPosition(i).toString();
             catSelected = categories.get(i);
-
-
-
-
-
         });
         goback.setOnClickListener(view -> setActivity(AllTasks.class));
         submit.setOnClickListener(view -> {
@@ -95,7 +89,9 @@ public class AddTask extends AppCompatActivity {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-                Tasks newTask = new Tasks(startdate, enddate, taskname, taskdesc, catSelected.getTitle(), catSelected.getImgid());
+                Tasks newTask = new Tasks(startdate, enddate, taskname, taskdesc, catSelected.getTitle(), catSelected.getImgid(),TimerId);
+                TimerId++;
+                preferenceManager.setString("TimerId",""+TimerId);
                 allTasks.add(newTask);
                 allTasks.sort(Comparator.comparing(Tasks::getEndDate));
                 Gson gson = new Gson();
@@ -110,12 +106,12 @@ public class AddTask extends AppCompatActivity {
 
                 alrm1 = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent iStart = new Intent(getApplicationContext(), TaskStartReciever.class);
-                PendingIntent piStart = PendingIntent.getBroadcast(getApplicationContext(),(int)System.currentTimeMillis(),iStart,PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent piStart = PendingIntent.getBroadcast(getApplicationContext(),newTask.getTimerId(),iStart,PendingIntent.FLAG_IMMUTABLE);
                 alrm1.setExact(AlarmManager.RTC_WAKEUP,startdate.getTime(),piStart);
 
                 alrm2 = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent iEnd = new Intent(getApplicationContext(), TaskEndReciever.class);
-                PendingIntent piEnd = PendingIntent.getBroadcast(getApplicationContext(), (int)System.currentTimeMillis(),iEnd,PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent piEnd = PendingIntent.getBroadcast(getApplicationContext(), newTask.getTimerId(),iEnd,PendingIntent.FLAG_IMMUTABLE);
                 alrm2.setExact(AlarmManager.RTC_WAKEUP,enddate.getTime(),piEnd);
                 setActivity(AllTasks.class);
 
@@ -145,6 +141,7 @@ public class AddTask extends AppCompatActivity {
         dropdownValues = new ArrayAdapter<>(this, R.layout.category_list, values);
         dropdown.setAdapter(dropdownValues);
         createNotificationChannel();
+        TimerId = Integer.parseInt(preferenceManager.getString("TimerId"));
     }
 
     private void createNotificationChannel() {
@@ -225,5 +222,12 @@ public class AddTask extends AppCompatActivity {
         timePickerDialog = new TimePickerDialog(this,style,timeSetListener,hour,minute,false);
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),AllTasks.class);
+        startActivity(i);
+        finish();
     }
 }

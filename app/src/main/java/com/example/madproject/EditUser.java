@@ -88,4 +88,9 @@ public class EditUser extends AppCompatActivity {
         }
     }
 
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(),Profile.class);
+        startActivity(i);
+        finish();
+    }
 }
