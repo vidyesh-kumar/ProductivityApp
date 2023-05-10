@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 //import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,9 +17,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Base64;
 //import android.view.View;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,7 +77,7 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 // this method is called
                 // when the item is moved.
-                return true;
+                return false;
             }
 
             @Override
@@ -141,7 +146,6 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
                             preferenceManager.setString("Tasks", taskJson);
                             // below line is to notify item is
                             // added to our adapter class.
-                            recyclerViewHolder.notifyItemInserted(position);
                         }
 
                         // adding on click listener to our action of snack bar.
@@ -149,17 +153,36 @@ public class AllTasks extends AppCompatActivity implements TaskRecycleListener{
 
 
                     }).show();
+                    new CountDownTimer(3000, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                        }
+
+                        @Override
+                        public void onFinish() {
+                                recreate();
+                        }
+                    }.start();
                 }
 
                 }
 
             public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
 
+                Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.inter_semi);
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeRightBackgroundColor(ContextCompat.getColor(AllTasks.this, R.color.colorAccent))
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(AllTasks.this, R.color.green))
-                        .addSwipeRightActionIcon(R.drawable.baseline_delete_24)
-                        .addSwipeLeftActionIcon(R.drawable.baseline_edit_24)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(AllTasks.this, R.color.back))
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(AllTasks.this, R.color.back))
+                        .setSwipeRightLabelTextSize(TypedValue.COMPLEX_UNIT_SP,22)
+                        .setSwipeLeftLabelTextSize(TypedValue.COMPLEX_UNIT_SP,22)
+                        .addSwipeLeftActionIcon(R.drawable.pencil_icon)
+                        .addSwipeRightActionIcon(R.drawable.trash_icon)
+                        .setSwipeLeftLabelColor(Color.WHITE)
+                        .setSwipeRightLabelColor(Color.WHITE)
+                        .setSwipeLeftLabelTypeface(typeface)
+                        .setSwipeRightLabelTypeface(typeface)
+                        .addSwipeRightLabel("  Delete")
+                        .addSwipeLeftLabel("Edit   ")
                         .create()
                         .decorate();
 
