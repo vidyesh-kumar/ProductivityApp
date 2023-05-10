@@ -67,12 +67,16 @@ public class Home extends AppCompatActivity implements RecycleListener {
         completed.setText(""+comple);
         int dele = Integer.parseInt(preferenceManager.getString("Deleted"));
         deleted.setText(""+dele);
-
-        int perce =(comple*100/(comple+dele));
-        perc.setText(""+perce+" %");
-        pb.setProgress(perce);
-
-
+        if(comple+dele==0) {
+            String perce="N/A";
+            perc.setText(perce);
+            pb.setProgress(0);
+        }
+        else
+        {   int perce =(comple*100/(comple+dele));
+            perc.setText(""+perce+" %");
+            pb.setProgress(perce);
+        }
 
         RecyclerAdapter adapter=new RecyclerAdapter(categories,this,this);
         GridLayoutManager layoutManager=new GridLayoutManager(this,2);
